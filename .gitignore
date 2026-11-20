@@ -1,0 +1,30 @@
+# Android 构建产物（只忽略 Android 的 build 目录，项目里的 build/ 是网页源码）
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/.idea/
+*.iml
+*.hprof
+captures/
+
+# 系统
+.DS_Store
+Thumbs.db
+
+# 大文件测试素材
+build/test-bank.pdf
+build/test-bank.xlsx
+build/*.zip
+
+# 部署包
+刷题助手-部署包.zip
+# deploy/index.html 是构建产物副本，不重复入库（android/assets 下的那份才是 CI 需要的）
+deploy/index.html
+
+# 工作区私有数据
+.workbuddy/
+
+# 本地临时
+__pycache__/
+*.pyc
