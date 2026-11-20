@@ -17,13 +17,22 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Locate Android SDK
+        run: |
+          SDK_ROOT="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-/usr/local/lib/android/sdk}}"
+          echo "SDK_ROOT=$SDK_ROOT" >> $GITHUB_ENV
+          SDKMGR=$(ls -d "$SDK_ROOT"/cmdline-tools/*/bin/sdkmanager 2>/dev/null | tail -1)
+          if [ -z "$SDKMGR" ]; then echo "未找到 sdkmanager"; ls -la "$SDK_ROOT"; exit 1; fi
+          echo "SDKMGR=$SDKMGR" >> $GITHUB_ENV
+          echo "sdkmanager: $SDKMGR"
+          "$SDKMGR" --version
 
       - name: Install platform and build tools
         run: |
-          yes | sdkmanager --licenses > /dev/null 2>&1 || true
-          sdkmanager "platforms;android-34" "build-tools;34.0.0" "platform-tools" > /dev/null
+          yes | "$SDKMGR" --licenses > /dev/null 2>&1 || true
+          "$SDKMGR" "platforms;android-34" "build-tools;34.0.0" > /dev/null
+          echo "已安装:"
+          ls "$SDK_ROOT/platforms" "$SDK_ROOT/build-tools"
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
