@@ -16,6 +16,7 @@ Thumbs.db
 build/test-bank.pdf
 build/test-bank.xlsx
 build/*.zip
+build/*.apk
 
 # 部署包
 刷题助手-部署包.zip

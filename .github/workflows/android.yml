@@ -34,6 +34,14 @@ jobs:
           echo "已安装:"
           ls "$SDK_ROOT/platforms" "$SDK_ROOT/build-tools"
 
+      - name: Sync web app into assets
+        run: |
+          # 以根目录的构建产物为准，避免 assets 里的副本忘记同步
+          if [ -f "刷题助手.html" ]; then
+            cp "刷题助手.html" android/app/src/main/assets/index.html
+          fi
+          ls -lh android/app/src/main/assets/index.html
+
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
